@@ -1,9 +1,5 @@
 FROM ubuntu:latest
 
-MAINTAINER Grigory Parshikov <grisha.mexanik@gmail.com>
-
-LABEL Description="Bird Internet routing daemon with RKN fiter list" Version="0.1.0"
-
 RUN apt-get update && \
     apt-get install -y \
     iputils-ping \
@@ -11,7 +7,8 @@ RUN apt-get update && \
     lsb-base \
     software-properties-common \
     gpg \
-    wget && \
+    cron \
+    curl && \
     add-apt-repository ppa:cz.nic-labs/bird && \
     apt-get update && \
     apt-get install bird && \
@@ -27,4 +24,6 @@ VOLUME /etc/bird/
 # Exposes BGP port by default. Expecify other protocol ports with 'docker run'
 EXPOSE 179/tcp
 
-CMD service cron start && service bird start
+CMD service cron start && \
+    /usr/lib/bird/prepare-environment && \
+    /usr/sbin/bird -f

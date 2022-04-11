@@ -1,1 +1,1 @@
-# Bird Internet routing daemon with RKN fiter list
+# Bird Internet routing daemon with uablacklist fiter list
